@@ -80,3 +80,27 @@ if request.method == 'POST':
 ```python
 if not user or not check_password_hash(user.password_hash, request.form['password']):
 ```
+
+---
+
+```html
+<p>Har du ikke bruker?: <a href="register.html"></a> </p> 
+```
+Jeg skrev linken som html, men html kan ikke kobles med python. Jeg må heller skrive det som jinja2
+`<p>Har du ikke bruker?: <a href="{{ url_for(register)}}"></a> </p> `
+Også glemmer jeg å definere Url-en med ''
+Det står ikke noe i '<a>' så ingen link vil vises
+Riktig versjon er:
+    <p>Har du ikke bruker?: <a href="{{ url_for('register') }}">Registrer</a> </p> 
+
+---
+``` python
+if request.method == 'POST':
+                db.session.add(Topics(
+                    title = request.form['topic_title'],
+                ))
+                db.session.commit()
+                return redirect(url_for('index'))
+```
+Her glemte jeg å legge til section.id så topic vet hvilken section den tilhører via foreign key
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+</head>
+<body>
+    <nav class="topbar">{{ name }}</nav>
+
+    <div class="forum-wrap">
+        <h1>Sections</h1>
+
+        <div class="forum-actions">
+            <a href="{{ url_for('create_section') }}" class="btn-outline">+ Create section</a>
+            <a href="{{ url_for('create_topic') }}" class="btn-outline">+ Create topic</a>
+        </div>
+
+        {% for section in sections %}
+            <div>
+                <h2>{{ section.title }}</h2>
+                <p>{{ section.description }}</p>
+
+                <ul>
+                    {% for topics in section.topics %}
+                        <li>{{ topics.title }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

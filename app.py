@@ -65,7 +65,6 @@ def admin_required(f):
     return decorated
 
 @app.route('/', methods=['GET', 'POST'])
-@admin_required
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
@@ -75,7 +74,7 @@ def login():
             return redirect(url_for('login'))
         flash("Innlogget", "sucsess")
         return redirect(url_for('index'))
-    return render_template('login_index')
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -91,6 +90,44 @@ def register():
         login_user(user)
         return redirect(url_for('index'))
     return render_template('register.html')
+
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    sections = Sections.query.all()
+    topics = Topics.query.all()
+    return render_template('index.html', sections=sections, topics=topics)
+
+
+@app.route('/create_section', methods=['GET', 'POST'])
+@admin_required
+def create_section():
+    Sections.query.all()
+    if request.method == 'POST':
+        db.session.add(Sections(
+            section_title = request.form['section_title'],
+            section_description=request.form['section_description']
+        ))
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('create_section.html')
+
+@app.route('/create_topic', methods=['GET', 'POST'])
+@admin_required
+def create_topic():
+    sections = Sections.query.all()
+    if sections:
+        if request.method == 'POST':
+                db.session.add(Topics(
+                    title = request.form['topic_title'],
+                ))
+                db.session.commit()
+                return redirect(url_for('index'))
+    else:
+        flash("Ingen sections tilgjengelig", "warning")
+    sections = Sections.query.all()
+    topics = Topics.query.all()
+    return render_template('create_topics.html', sections = sections, topics=topics)
+
 
 
 if __name__ == '__main__':

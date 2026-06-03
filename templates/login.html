@@ -11,10 +11,16 @@
     <form method="post">
         <label for="username">Brukernavn: </label>
         <input type="text" name="username">
+
+        <br><br>
+
         <label for="password">Passord: </label>
         <input type="password" name="password">
+
+        <br><br>
+
         <button type="submit">Log in</button>
     </form>
-    <p>Har du ikke bruker?: <a href="register.html"></a></p>
+    <p>Har du ikke bruker?: <a href="{{ url_for('register') }}">Registrer</a> </p> 
 </body>
 </html>
