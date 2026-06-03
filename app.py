@@ -30,19 +30,19 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
+    is_admin = db.Colum(db.Boolean, default=False)
     ip_addresse = db.Column(db.String(50), nullable=True)
 
 class Sections(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    description = db.Colum(db.text, nullable=True)   
+    description = db.Column(db.Text, nullable=True)   
     topics = db.relationship('Topics', backref='section', lazy=True, cascade='all, delete-orphan')
 
 class Topics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    section_id = db.Column(db.Integer, db.ForeignKey('sections_id'), nullable=False)   
+    section_id = db.Column(db.Integer, db.ForeignKey('sections.id'), nullable=False)   
  
 
 with app.app_context():
@@ -50,10 +50,10 @@ with app.app_context():
     if not User.query.filter_by(username='admin'):
         db.session.add(User(
             username='admin',
-            password_hash=generate_password_hash('admin123')   
+            password_hash=generate_password_hash('admin123'),   
             is_admin=True
         ))
-        db.session.commit
+        db.session.commit()
 
 def admin_required(f):
     @wraps(f)
@@ -64,7 +64,9 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
+@admin_required
 def login():
     if request.method == 'POST':
-
+        user = User.query.filter_by(username=request.form['username']).first()
+        if not user or not check_password_hash(user.password_hash, password_hash=request.form['password']).first():
