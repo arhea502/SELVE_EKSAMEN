@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ─── Reset & Base ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F5F2EE;
+  --surface:   #FFFFFF;
+  --border:    #E2DDD7;
+  --ink:       #1A1714;
+  --muted:     #7A7470;
+  --accent:    #C0392B;
+  --accent-lt: #F9EDEB;
+  --radius:    10px;
+  --shadow:    0 2px 16px rgba(0,0,0,.07);
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ─── Typography ───────────────────────────────────── */
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 1.8rem;
+}
+
+h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  letter-spacing: -.01em;
+  margin-bottom: .4rem;
+}
+
+p { color: var(--muted); font-size: .95rem; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity .15s;
+}
+a:hover { opacity: .7; }
+
+/* ─── Layout helpers ───────────────────────────────── */
+.page-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.4rem 2.8rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* ─── Forms ────────────────────────────────────────── */
+label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .4rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  padding: .65rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .95rem;
+  background: var(--bg);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lt);
+}
+
+.field { margin-bottom: 1.2rem; }
+
+button[type="submit"] {
+  display: inline-block;
+  margin-top: .6rem;
+  width: 100%;
+  padding: .75rem 1.4rem;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: calc(var(--radius) - 2px);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+
+button[type="submit"]:hover { background: var(--accent); }
+button[type="submit"]:active { transform: scale(.98); }
+
+/* ─── Flash messages ───────────────────────────────── */
+ul { list-style: none; margin: 1rem 0; }
+ul li {
+  padding: .55rem .8rem;
+  border-radius: 6px;
+  font-size: .88rem;
+  background: var(--accent-lt);
+  color: var(--accent);
+  border: 1px solid #f0c5c0;
+}
+ul li.success {
+  background: #edf7f0;
+  color: #1e7d3e;
+  border-color: #b8dfc6;
+}
+
+/* ─── Footer text in auth pages ────────────────────── */
+.auth-footer {
+  text-align: center;
+  margin-top: 1.4rem;
+  font-size: .88rem;
+  color: var(--muted);
+}
+
+/* ─── Nav ──────────────────────────────────────────── */
+nav.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 300;
+  letter-spacing: -.01em;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ─── Forum index ──────────────────────────────────── */
+.forum-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.forum-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .55rem 1.1rem;
+  border: 1.5px solid var(--ink);
+  border-radius: calc(var(--radius) - 2px);
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  color: var(--ink);
+  transition: background .15s, color .15s;
+}
+.btn-outline:hover { background: var(--ink); color: #fff; opacity: 1; }
+
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.section-card h2 { color: var(--ink); }
+
+.topic-list {
+  list-style: none;
+  margin-top: .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.topic-list li {
+  font-size: .9rem;
+  color: var(--muted);
+  padding: .35rem .6rem;
+  background: var(--bg);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition: border-color .15s;
+}
+.topic-list li:hover { border-color: var(--accent); color: var(--ink); }
+
+/* ─── Divider ──────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.4rem 0;
+}

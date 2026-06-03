@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
-    is_admin = db.Colum(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, default=False)
     ip_addresse = db.Column(db.String(50), nullable=True)
 
 class Sections(db.Model):
@@ -64,9 +64,34 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated
 
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 @admin_required
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        if not user or not check_password_hash(user.password_hash, password_hash=request.form['password']).first():
+        if not user or not check_password_hash(user.password_hash, request.form['password']):
+            flash("Feil brukernavn eller passord", "error")
+            login_user(user)
+            return redirect(url_for('login'))
+        flash("Innlogget", "sucsess")
+        return redirect(url_for('index'))
+    return render_template('login_index')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        db.session.add(User(
+            username=request.form['username'],
+            password_hash=request.form['password'],
+            is_admin=False,
+            ip_addresse=request.remote_addr
+        ))
+        db.session.commit()
+        user = User.query.filter_by(username=request.form['username']).first()
+        login_user(user)
+        return redirect(url_for('index'))
+    return render_template('register.html')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
